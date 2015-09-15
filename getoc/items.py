@@ -8,7 +8,12 @@
 import scrapy
 
 
-class GetocItem(scrapy.Item):
+class LessonItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    idx = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
+
+
+class CourseItem(scrapy.Item):
+    name = scrapy.Field()
