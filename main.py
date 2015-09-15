@@ -31,4 +31,13 @@ if __name__ == "__main__":
         course_dir = os.path.join(kwargs['output'], name)
         for l in lessons:
             cmd = 'you-get -o %s %s' % (course_dir, l['url'])
-            subprocess.check_call(shlex.split(cmd))
+            subprocess.check_call(shlex.split(cmd.encode('utf8')))
+            fbasename = 'getoc-%.3i-%s' % (l['idx'], l['title'])
+            for fn in os.listdir(course_dir):
+                if not fn.startswith('getoc-'):
+                    bn, ext = os.path.splitext(fn)
+                    fname = fbasename + ext
+                    os.rename(
+                        os.path.join(course_dir, fn),
+                        os.path.join(course_dir, fname)
+                    )

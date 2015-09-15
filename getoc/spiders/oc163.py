@@ -17,7 +17,7 @@ class Oc163Spider(scrapy.Spider):
         course = CourseItem(name=course_name)
         yield course
         for idx, elem in enumerate(response.css('table.m-clist td.u-ctitle a')):
-            lesson = LessonItem(idx=idx)
+            lesson = LessonItem(idx=(idx+1))
             lesson['title'] = ''.join(elem.xpath('text()').extract())
             lesson['url'] = ''.join(elem.xpath('@href').extract())
             yield lesson
