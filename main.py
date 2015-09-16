@@ -11,7 +11,7 @@ def extract_courses(course_idx):
     with open(course_idx) as f:
         name = json.loads(f.readline())['name']
         lessons = [json.loads(l) for l in f.readlines()]
-        return (name, lessons)
+        return (name.replace(' ', ''), lessons)
 
 if __name__ == "__main__":
     import argparse
@@ -28,6 +28,7 @@ if __name__ == "__main__":
         cmd = "scrapy crawl oc163 -o %s -a url=%s" % (course_idx, url)
         subprocess.check_call(shlex.split(cmd))
         name, lessons = extract_courses(course_idx)
+        os.remove(course_idx)
         course_dir = os.path.join(kwargs['output'], name)
         for l in lessons:
             cmd = 'you-get -o %s %s' % (course_dir, l['url'])
