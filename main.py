@@ -23,12 +23,11 @@ if __name__ == "__main__":
     args = parser.parse_args(sys.argv[1:])
     kwargs = vars(args)
     urls = kwargs['urls']
-    course_idx = os.path.join(kwargs['output'], 'idx.jl')
-    for url in urls:
+    for i, url in enumerate(urls):
+        course_idx = os.path.join(kwargs['output'], 'idx-%i.jl' % i)
         cmd = "scrapy crawl oc163 -o %s -a url=%s" % (course_idx, url)
         subprocess.check_call(shlex.split(cmd))
         name, lessons = extract_courses(course_idx)
-        os.remove(course_idx)
         course_dir = os.path.join(kwargs['output'], name)
         for l in lessons:
             cmd = 'you-get -o %s %s' % (course_dir, l['url'])
